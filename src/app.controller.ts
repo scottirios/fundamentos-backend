@@ -20,6 +20,24 @@ function isValidCPF(cpf: string): boolean {
   return rev === +cpf.charAt(10);
 }
 
+enum Status {
+  APROVADO = 'APROVADO',
+  NEGADO = 'NEGADO',
+  PENDENTE = 'PENDENTE'
+}
+
+const updateStatusProductBodySchema = z.object({
+  status: z.enum([Status.APROVADO, Status.NEGADO], {
+    message: "Status must be 'APROVADO' or 'NEGADO'. "
+  })
+});
+
+const updateStatusBodyValidationPipe = new ZodValidationPipe(updateStatusProductBodySchema);
+
+type UpdateStatusProductBodySchema = z.infer<typeof updateStatusProductBodySchema>;
+
+
+
 const createProductBodySchema = z.object({
   name: z.string().min(3).max(120),
   model: z.string().min(3).max(20),
@@ -59,13 +77,6 @@ const updateBodyValidationPipe = new ZodValidationPipe(updateProductBodySchema);
 
 type UpdateProductBodySchema = z.infer<typeof updateProductBodySchema>;
 
-const updateStatusProductBodySchema = z.object({
-  status: z.string().max(10)
-});
-
-const updateStatusBodyValidationPipe = new ZodValidationPipe(updateStatusProductBodySchema);
-
-type UpdateStatusProductBodySchema = z.infer<typeof updateStatusProductBodySchema>;
 
 @Controller('/products')
 export class AppController {
@@ -99,18 +110,18 @@ export class AppController {
   @Put(':id')
   @HttpCode(204)
   update(
-  @Param('id') id: string, 
-  @Body(updateBodyValidationPipe) body: UpdateProductBodySchema) {
-    
+    @Param('id') id: string,
+    @Body(updateBodyValidationPipe) body: UpdateProductBodySchema) {
+
   }
 
 
   @Patch(':id/status')
   @HttpCode(204)
   updateStatus(
-  @Param('id') id: string,
-  @Body(updateStatusBodyValidationPipe) body: UpdateStatusProductBodySchema) {
-    
+    @Param('id') id: string,
+    @Body(updateStatusBodyValidationPipe) body: UpdateStatusProductBodySchema) {
+
   }
 
   @Delete(':id')
