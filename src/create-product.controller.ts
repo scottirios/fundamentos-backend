@@ -2,15 +2,17 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { z } from 'zod';
 import { ZodValidationPipe } from './pipes/zod-validation-pipe'; //Formatar o erro
 import { CreateProductService } from './create-product.service';
+import { Category } from '@prisma/client';
+import { ProductsRepository } from './products.repository';
 
 
 const createProductBodySchema = z.object({
     name: z.string().min(3).max(120),
-    description: z.string().min(3).max(120),
-    price: z.number().gt(1),
-    inStock: z.number().gt(0),
+    description: z.string().min(3).max(120).optional(),
+    price: z.number(),
+    inStock: z.number(),
     isAvailable: z.boolean(),
-    category: z.enum(["HOME", "MATERIAL", "ELECTRONIC", "OTHER"]),
+    category: z.enum([Category.ELECTRONIC, Category.HOME, Category.MATERIAL, Category.OTHER]),
     tags: z.array(z.string())
 });
 
@@ -38,7 +40,7 @@ export class CreateProductController {
             tags
         } = body
 
-        await this.createProduct.execute({
+        const product = await this.createProduct.execute({
             name,
             description,
             price,
@@ -47,5 +49,7 @@ export class CreateProductController {
             category,
             tags
         });
+
+        return {product}
     }
 }

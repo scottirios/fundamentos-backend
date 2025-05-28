@@ -44,4 +44,15 @@ model User {
   updateAt DateTime? @updatedAt @map("updated_at")
 
   @@map("users")
+
+}
+
+model Model {
+  id String @id @default(uuid())
+  name String @unique
+
+  createAt DateTime @default(now()) @map("created_at")
+  updateAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("models")
 }
