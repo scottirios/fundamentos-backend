@@ -31,4 +31,5 @@ export class CreatedModelController {
         return { model }
 
     }
+
 }

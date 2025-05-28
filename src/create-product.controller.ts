@@ -3,8 +3,6 @@ import { z } from 'zod';
 import { ZodValidationPipe } from './pipes/zod-validation-pipe'; //Formatar o erro
 import { CreateProductService } from './create-product.service';
 import { Category } from '@prisma/client';
-import { ProductsRepository } from './products.repository';
-
 
 const createProductBodySchema = z.object({
     name: z.string().min(3).max(120),

@@ -6,10 +6,11 @@ import { ProductsRepository } from './products.repository';
 import { CreateModelService } from './create-model.service';
 import { ModelsRepository } from './models.repository';
 import { CreatedModelController } from './create-model.controller';
+import { GetProductsController } from './fetch-recent-products.controller';
 
 @Module({
   imports: [],
-  controllers: [CreateProductController, CreatedModelController],
+  controllers: [CreateProductController, CreatedModelController, GetProductsController],
   providers: [PrismaService, CreateProductService, ProductsRepository, CreateModelService, ModelsRepository],
 })
 

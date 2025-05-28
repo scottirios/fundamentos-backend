@@ -26,6 +26,14 @@ export class ProductsRepository {
         return product;
     }
 
+    async findMany(): Promise<Prisma.ProductUncheckedCreateInput[] | null> {
+        const product = this.prisma.product.findMany({
+        });
+
+        return product;
+    }
+
+
     async create(product: Prisma.ProductUncheckedCreateInput): Promise<Prisma.ProductUncheckedCreateInput> {
         return await this.prisma.product.create({
             data: product,
