@@ -40,8 +40,8 @@ export class CreateModelService {
             model: {
                 id: newModel.id?.toString() || "",
                 name,
-                createdAt: newModel.createAt,
-                updatedAt: newModel.updateAt
+                createdAt: newModel.createdAt,
+                updatedAt: newModel.updatedAt
             }
         }
     }

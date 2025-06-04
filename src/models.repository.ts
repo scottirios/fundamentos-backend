@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
+import { Model, Prisma } from "@prisma/client";
 import { PrismaService } from "prisma.service";
+
 
 @Injectable()
 export class ModelsRepository {
@@ -11,7 +12,7 @@ export class ModelsRepository {
             where: {
                 id,
             }
-        })
+        });
 
         return model;
     }
@@ -22,13 +23,17 @@ export class ModelsRepository {
                 name,
             }
         });
+        return model;
+    }
 
+    async findMany(): Promise<Model[]> {
+        const model = await this.prisma.model.findMany()
         return model;
     }
 
     async create(model: Prisma.ModelUncheckedCreateInput): Promise<Prisma.ModelUncheckedCreateInput> {
         return await this.prisma.model.create({
             data: model,
-        })
+        });
     }
 }

@@ -48,6 +48,6 @@ export class CreateProductController {
             tags
         });
 
-        return {product}
+        return { product }
     }
 }

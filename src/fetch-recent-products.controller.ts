@@ -1,20 +1,14 @@
 import { Controller, Get, HttpCode, Param } from "@nestjs/common";
+import { FetchRecentProductsService } from "./fetch-recent-products.service";
 
 @Controller('/products')
-export class GetProductsController {
-
-    constructor() { }
-
-    @Get(':id')
-    @HttpCode(200)
-    findById(@Param('id') id: string) {
-        return `Produto localizado ${id}`
-    }
+export class FetchRecentProductsController {
+    constructor(private readonly service: FetchRecentProductsService) { }
 
     @Get()
     @HttpCode(200)
-    findMany() {
-        return 
+    async handle() {
+        const products = await this.service.execute();
+        return products;
     }
-
 }
