@@ -31,6 +31,7 @@ model Product {
   tags        String[]
 
   orderItems  OrderItem[] // One-to-Many
+
   models      Model[]   @relation("product_models")
 
   createdAt   DateTime  @default(now()) @map("created_at")
