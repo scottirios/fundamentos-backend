@@ -44,7 +44,7 @@ export class CreateProductService {
         const model = await this.modelsRepository.findById(modelId);
 
         if (!model) {
-          throw new BadRequestException(`Model ${modelId} does not exists.`);
+          throw new BadRequestException(`Model ${modelId} does not exist.`);
         }
 
         modelsToConnect.push({ id: modelId });

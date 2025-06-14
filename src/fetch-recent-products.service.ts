@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
 import { Category } from "@prisma/client";
 
@@ -11,13 +11,14 @@ export interface Product {
   isAvailable: Boolean;
   category: Category;
   tags: string[];
+  modelsIds: string[];
   createdAt: string | Date | undefined;
   updatedAt: string | Date | null | undefined;
 }
 
 type FetchRecentProductsServiceResponse = {
   products: Product[];
-}
+};
 
 @Injectable()
 export class FetchRecentProductsService {
@@ -29,7 +30,7 @@ export class FetchRecentProductsService {
     const newProducts: Product[] = [];
 
     if (!products) {
-      throw new Error("Products not found");
+      throw new HttpException("Product not found.", HttpStatus.NOT_FOUND);
     }
 
     for (const product of products) {
@@ -42,13 +43,14 @@ export class FetchRecentProductsService {
         isAvailable: !!product.isAvailable,
         category: product.category,
         tags: product.tags as string[],
+        modelsIds: product.models as string[],
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       });
     }
 
     return {
-      products: newProducts
+      products: newProducts,
     };
   }
 }
