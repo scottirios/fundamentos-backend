@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
 import { Category } from "@prisma/client";
 
@@ -11,6 +11,7 @@ export interface Product {
   isAvailable: Boolean;
   category: Category;
   tags: string[];
+  modelsIds: string[];
   createdAt: string | Date | undefined;
   updatedAt: string | Date | null | undefined;
 }
@@ -21,7 +22,7 @@ interface GetProductByIdServiceRequest {
 
 type GetProductByIdServiceResponse = {
   product: Product;
-}
+};
 
 @Injectable()
 export class GetProductByIdService {
@@ -33,7 +34,7 @@ export class GetProductByIdService {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {
-      throw new Error("Product not found");
+      throw new HttpException("Product not found.", HttpStatus.NOT_FOUND);
     }
 
     const newProduct: Product = {
@@ -45,12 +46,13 @@ export class GetProductByIdService {
       isAvailable: !!product.isAvailable,
       category: product.category,
       tags: product.tags as string[],
+      modelsIds: product.models as string[],
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
 
     return {
-      product: newProduct
+      product: newProduct,
     };
   }
 }

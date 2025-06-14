@@ -9,17 +9,26 @@ export class ProductsRepository {
   async findManyRecent(): Promise<any> {
     return await this.prisma.product.findMany({
       include: {
-        models: true,
+        models: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
   }
 
-  async findById(
-    id: string
-  ): Promise<Prisma.ProductUncheckedCreateInput | null> {
+  async findById(id: string): Promise<any> {
     return await this.prisma.product.findUnique({
       where: {
         id,
+      },
+      include: {
+        models: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
   }
