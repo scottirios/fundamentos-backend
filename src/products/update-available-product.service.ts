@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
 
 interface UpdateAvailableProductServiceRequest {
@@ -17,7 +17,7 @@ export class UpdateAvailableProductService {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {
-      throw new Error("Product not found");
+      throw new NotFoundException("Product not found");
     }
 
     product.isAvailable = isAvailable;
