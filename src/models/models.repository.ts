@@ -18,6 +18,18 @@ export class ModelsRepository {
     });
   }
 
+  async findByName(
+    name: string
+  ): Promise<Prisma.ModelUncheckedCreateInput | null> {
+    const model = this.prisma.model.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    return model;
+  }
+
   async save(data: Prisma.ModelUncheckedUpdateInput): Promise<void> {
     await Promise.all([
       this.prisma.model.update({

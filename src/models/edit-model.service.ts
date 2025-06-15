@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { ModelsRepository } from "./models.repository";
 
 interface EditModelServiceRequest {
@@ -10,14 +10,11 @@ interface EditModelServiceRequest {
 export class EditModelService {
   constructor(private modelsRepository: ModelsRepository) {}
 
-  async execute({
-    name,
-    id,
-  }: EditModelServiceRequest): Promise<void> {
+  async execute({ name, id }: EditModelServiceRequest): Promise<void> {
     const model = await this.modelsRepository.findById(id);
 
     if (!model) {
-      throw new Error("Model not found");
+      throw new NotFoundException("Model not found");
     }
 
     model.name = name;
