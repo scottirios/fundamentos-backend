@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { ProductsRepository } from "./products.repository";
 import { Category } from "@prisma/client";
+import { ProductsRepository } from "./products.repository";
 
 export interface Product {
   id: string;

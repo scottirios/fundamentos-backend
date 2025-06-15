@@ -1,7 +1,7 @@
 import { Controller, Delete, HttpCode, Param } from "@nestjs/common";
 import { DeleteProductService } from "./delete-product.service";
 
-@Controller('/products/:id')
+@Controller("/products/:id")
 export class DeleteProductController {
   constructor(private deleteProduct: DeleteProductService) {}
 

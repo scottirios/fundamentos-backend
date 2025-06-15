@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
 import { Prisma } from "@prisma/client";
+import { PrismaService } from "src/prisma.service";
 
 @Injectable()
 export class ProductsRepository {
@@ -45,15 +45,25 @@ export class ProductsRepository {
     return product;
   }
 
-  async save(data: Prisma.ProductUncheckedCreateInput): Promise<void> {
-    await Promise.all([
-      this.prisma.product.update({
-        where: {
-          id: data.id?.toString(),
-        },
-        data,
-      }),
-    ]);
+  async save(
+    data: Prisma.ProductUncheckedCreateInput & { modelsIds?: string[] }
+  ): Promise<any> {
+    const { modelsIds, ...rest } = data;
+
+    await this.prisma.product.update({
+      where: {
+        id: rest.id?.toString(),
+      },
+      data: {
+        ...rest,
+        models: modelsIds
+          ? {
+              set: [],
+              connect: modelsIds.map((id) => ({ id })),
+            }
+          : undefined,
+      },
+    });
   }
 
   async create(product: Prisma.ProductUncheckedCreateInput): Promise<void> {

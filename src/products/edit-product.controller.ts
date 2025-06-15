@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, Param, Put } from "@nestjs/common";
-import { z } from "zod";
-import { ZodValidationPipe } from "./pipes/zod-validation-pipe";
 import { Category } from "@prisma/client";
+import { ZodValidationPipe } from "src/pipes/zod-validation-pipe";
+import { z } from "zod";
 import { EditProductService } from "./edit-product.service";
 
 const editProductBodySchema = z.object({
@@ -12,13 +12,14 @@ const editProductBodySchema = z.object({
   isAvailable: z.boolean(),
   category: z.enum([Category.ELECTRONICS, Category.OTHER]),
   tags: z.array(z.string()),
+  modelsIds: z.array(z.string()).optional(),
 });
 
 const bodyValidationPipe = new ZodValidationPipe(editProductBodySchema);
 
 type EditProductBodySchema = z.infer<typeof editProductBodySchema>;
 
-@Controller('/products/:id')
+@Controller("/products/:id")
 export class EditProductController {
   constructor(private editProduct: EditProductService) {}
 
@@ -26,7 +27,7 @@ export class EditProductController {
   @HttpCode(204)
   async handle(
     @Body(bodyValidationPipe) body: EditProductBodySchema,
-    @Param("id") id: string,
+    @Param("id") id: string
   ) {
     const {
       name,
@@ -36,6 +37,7 @@ export class EditProductController {
       isAvailable,
       category,
       tags,
+      modelsIds,
     } = body;
 
     await this.editProduct.execute({
@@ -47,6 +49,7 @@ export class EditProductController {
       category,
       tags,
       id,
+      modelsIds,
     });
   }
 }

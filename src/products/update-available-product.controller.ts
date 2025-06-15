@@ -1,6 +1,7 @@
 import { Body, Controller, HttpCode, Patch } from "@nestjs/common";
+import { ZodValidationPipe } from "src/pipes/zod-validation-pipe";
+
 import { z } from "zod";
-import { ZodValidationPipe } from "./pipes/zod-validation-pipe";
 import { UpdateAvailableProductService } from "./update-available-product.service";
 
 const updateAvailableProductBodySchema = z.object({
@@ -8,23 +9,24 @@ const updateAvailableProductBodySchema = z.object({
   isAvailable: z.boolean(),
 });
 
-const bodyValidationPipe = new ZodValidationPipe(updateAvailableProductBodySchema);
+const bodyValidationPipe = new ZodValidationPipe(
+  updateAvailableProductBodySchema
+);
 
-type UpdateAvailableProductBodySchema = z.infer<typeof updateAvailableProductBodySchema>;
+type UpdateAvailableProductBodySchema = z.infer<
+  typeof updateAvailableProductBodySchema
+>;
 
-@Controller('/products/available')
+@Controller("/products/available")
 export class UpdateAvailableProductController {
   constructor(private updateAvailableProduct: UpdateAvailableProductService) {}
 
   @Patch()
   @HttpCode(204)
   async handle(
-    @Body(bodyValidationPipe) body: UpdateAvailableProductBodySchema,
+    @Body(bodyValidationPipe) body: UpdateAvailableProductBodySchema
   ) {
-    const {
-      ids,
-      isAvailable,
-    } = body;
+    const { ids, isAvailable } = body;
 
     ids.map(async (id) => {
       await this.updateAvailableProduct.execute({

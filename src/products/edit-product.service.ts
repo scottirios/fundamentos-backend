@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { ProductsRepository } from "./products.repository";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Category } from "@prisma/client";
+import { ProductsRepository } from "./products.repository";
 
 interface EditProductServiceRequest {
   name: string;
@@ -11,6 +11,7 @@ interface EditProductServiceRequest {
   category: Category;
   tags: string[];
   id: string;
+  modelsIds?: string[];
 }
 
 @Injectable()
@@ -26,21 +27,24 @@ export class EditProductService {
     category,
     tags,
     id,
+    modelsIds,
   }: EditProductServiceRequest): Promise<void> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {
-      throw new Error("Product not found");
+      throw new NotFoundException("Product not found");
     }
 
-    product.name = name;
-    product.description = description;
-    product.price = price;
-    product.inStock = inStock;
-    product.isAvailable = isAvailable;
-    product.category = category;
-    product.tags = tags;
-
-    await this.productsRepository.save(product);
+    await this.productsRepository.save({
+      ...product,
+      name,
+      description,
+      price,
+      inStock,
+      isAvailable,
+      category,
+      tags,
+      modelsIds,
+    });
   }
 }

@@ -1,7 +1,7 @@
-import { BadRequestException, HttpException, Injectable } from "@nestjs/common";
-import { ProductsRepository } from "./products.repository";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Category } from "@prisma/client";
-import { ModelsRepository } from "./models.repository";
+import { ProductsRepository } from "./products.repository";
+import { ModelsRepository } from "src/models/models.repository";
 
 interface CreateProductServiceRequest {
   name: string;

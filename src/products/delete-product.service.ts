@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
 
 interface DeleteProductServiceRequest {
@@ -9,13 +9,11 @@ interface DeleteProductServiceRequest {
 export class DeleteProductService {
   constructor(private productsRepository: ProductsRepository) {}
 
-  async execute({
-    id,
-  }: DeleteProductServiceRequest): Promise<void> {
+  async execute({ id }: DeleteProductServiceRequest): Promise<void> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {
-      throw new Error("Product not found");
+      throw new NotFoundException("Product not found");
     }
 
     await this.productsRepository.delete(product);

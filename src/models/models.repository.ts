@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
+import { PrismaService } from "../prisma.service";
 import { Prisma } from "@prisma/client";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class ModelsRepository {
     return await this.prisma.model.findUnique({
       where: {
         id,
-      }
+      },
     });
   }
 
@@ -39,7 +39,7 @@ export class ModelsRepository {
     await this.prisma.model.delete({
       where: {
         id: model.id?.toString(),
-      }
+      },
     });
   }
 }
