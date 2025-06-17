@@ -31,4 +31,8 @@ export class UserRepository {
       },
     });
   }
+
+  async findManyRecent(): Promise<Prisma.UserUncheckedCreateInput[] | null> {
+    return await this.prisma.user.findMany();
+  }
 }
