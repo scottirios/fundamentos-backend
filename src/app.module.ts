@@ -27,6 +27,9 @@ import { UpdateAvailableProductController } from "./products/update-available-pr
 import { EditProductService } from "./products/edit-product.service";
 import { FetchRecentProductsService } from "./products/fetch-recent-products.service";
 import { UpdateAvailableProductService } from "./products/update-available-product.service";
+import { CreateUserController } from "./users/create-user.controller";
+import { UserRepository } from "./users/users.repository";
+import { CreateUserService } from "./users/create-user.service";
 
 @Module({
   imports: [],
@@ -42,6 +45,7 @@ import { UpdateAvailableProductService } from "./products/update-available-produ
     GetProductByIdController,
     GetModelByIdController,
     UpdateAvailableProductController,
+    CreateUserController,
   ],
   providers: [
     PrismaService,
@@ -58,6 +62,8 @@ import { UpdateAvailableProductService } from "./products/update-available-produ
     UpdateAvailableProductService,
     ProductsRepository,
     ModelsRepository,
+    UserRepository,
+    CreateUserService,
   ],
 })
 export class AppModule {}
