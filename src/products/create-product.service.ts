@@ -11,7 +11,7 @@ interface CreateProductServiceRequest {
   isAvailable: boolean;
   category: Category;
   tags: string[];
-  modelsIds?: string[];
+  modelId: string;
 }
 
 @Injectable()
@@ -29,7 +29,7 @@ export class CreateProductService {
     isAvailable,
     category,
     tags,
-    modelsIds,
+    modelId,
   }: CreateProductServiceRequest): Promise<void> {
     const productWithSameName = await this.productsRepository.findByName(name);
 
@@ -37,21 +37,13 @@ export class CreateProductService {
       throw new BadRequestException("Product with same name already exists.");
     }
 
-    const modelsToConnect: { id: string }[] = [];
+    const model = await this.modelsRepository.findById(modelId);
 
-    if (modelsIds) {
-      for (const modelId of modelsIds) {
-        const model = await this.modelsRepository.findById(modelId);
-
-        if (!model) {
-          throw new BadRequestException(`Model ${modelId} does not exist.`);
-        }
-
-        modelsToConnect.push({ id: modelId });
-      }
+    if (!model) {
+      throw new BadRequestException(`Model ${modelId} does not exist.`);
     }
 
-    const product = {
+    await this.productsRepository.create({
       name,
       description,
       price,
@@ -59,11 +51,7 @@ export class CreateProductService {
       isAvailable,
       category,
       tags,
-      models: {
-        connect: modelsToConnect,
-      },
-    };
-
-    await this.productsRepository.create(product);
+      models: { connect: { id: modelId } },
+    });
   }
 }

@@ -32,6 +32,9 @@ import { UserRepository } from "./users/users.repository";
 import { CreateUserService } from "./users/create-user.service";
 import { FetchRecentUsersService } from "./users/fetch-recent-users.service";
 import { FetchRecentUsersController } from "./users/fetch-recent-users.controller";
+import { CreateProfileService } from "./profiles/create-profile.service";
+import { ProfileRepository } from "./profiles/profiles.repository";
+import { CreateProfileController } from "./profiles/create-profile.controller";
 
 @Module({
   imports: [],
@@ -49,6 +52,7 @@ import { FetchRecentUsersController } from "./users/fetch-recent-users.controlle
     UpdateAvailableProductController,
     CreateUserController,
     FetchRecentUsersController,
+    CreateProfileController,
   ],
   providers: [
     PrismaService,
@@ -68,6 +72,8 @@ import { FetchRecentUsersController } from "./users/fetch-recent-users.controlle
     UserRepository,
     CreateUserService,
     FetchRecentUsersService,
+    CreateProfileService,
+    ProfileRepository,
   ],
 })
 export class AppModule {}

@@ -21,7 +21,7 @@ export class ModelsRepository {
   async findByName(
     name: string
   ): Promise<Prisma.ModelUncheckedCreateInput | null> {
-    const model = this.prisma.model.findFirst({
+    const model = this.prisma.model.findUnique({
       where: {
         name,
       },
