@@ -24,10 +24,21 @@ export class UserRepository {
     return user;
   }
 
-  async findById(id: string): Promise<Prisma.UserUncheckedCreateInput | null> {
+  async findById(id: string): Promise<any> {
     return await this.prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        profile: {
+          select: {
+            id: true,
+            avatarUrl: true,
+            userId: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
       },
     });
   }
