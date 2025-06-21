@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UserRepository } from "./users.repository";
 import { Profile } from "@prisma/client";
-import { profile } from "console";
 
 export interface User {
   id: string;

@@ -46,4 +46,14 @@ export class UserRepository {
   async findManyRecent(): Promise<Prisma.UserUncheckedCreateInput[] | null> {
     return await this.prisma.user.findMany();
   }
+
+  async save(data: { id: string; email: string }): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: data.id },
+      data: {
+        email: data.email,
+        updatedAt: new Date(),
+      },
+    });
+  }
 }
