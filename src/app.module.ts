@@ -39,6 +39,8 @@ import { GetUserByIdController } from "./users/get-user-by-id.controller";
 import { GetUserByIdService } from "./users/get-user-by-id.service";
 import { EditUserController } from "./users/edit-user.controller";
 import { EditUserService } from "./users/edit-user.service";
+import { DeleteUserController } from "./users/delete-user.controller";
+import { DeleteUserService } from "./users/delete-user.service";
 
 @Module({
   imports: [],
@@ -59,6 +61,7 @@ import { EditUserService } from "./users/edit-user.service";
     CreateProfileController,
     GetUserByIdController,
     EditUserController,
+    DeleteUserController,
   ],
   providers: [
     PrismaService,
@@ -82,6 +85,7 @@ import { EditUserService } from "./users/edit-user.service";
     ProfileRepository,
     GetUserByIdService,
     EditUserService,
+    DeleteUserService,
   ],
 })
 export class AppModule {}

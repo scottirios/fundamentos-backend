@@ -56,4 +56,12 @@ export class UserRepository {
       },
     });
   }
+
+  async delete(user: Prisma.UserUncheckedCreateInput): Promise<void> {
+    await this.prisma.user.delete({
+      where: {
+        id: user.id?.toString(),
+      },
+    });
+  }
 }
