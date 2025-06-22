@@ -11,6 +11,7 @@ export class ProfileRepository {
       where: {
         id,
       },
+      include: { user: true },
     });
   }
 
