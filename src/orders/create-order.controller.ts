@@ -1,30 +1,32 @@
-/*import { Body, Controller, HttpCode, Post } from "@nestjs/common";
-import { ZodValidationPipe } from "src/pipes/zod-validation-pipe";
+import { Body, Controller, HttpCode, Post } from "@nestjs/common";
+import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
 import { z } from "zod";
+import { CreateOrderService } from "./create-order.service";
 
 const createOrderBodySchema = z.object({
-  userId: z.string().uuid().min(1),
-  orderItems: z.array(z.string().uuid()).min(1),
-  total: z.number(),
+  userId: z.string().uuid(),
+  orderItems: z.array(
+    z.object({
+      productId: z.string().uuid(),
+      quantity: z.number().min(1),
+    })
+  ),
 });
 
 const bodyValidationPipe = new ZodValidationPipe(createOrderBodySchema);
-
-type CreateOrderBodySchema = z.infer<typeof createOrderBodySchema>;
+type CreateOrderBody = z.infer<typeof createOrderBodySchema>;
 
 @Controller("/orders")
 export class CreateOrderController {
-  constructor(private createOrder: CreateOrderService) {}
+  constructor(private createOrderService: CreateOrderService) {}
 
   @Post()
   @HttpCode(201)
-  async handle(@Body(bodyValidationPipe) body: CreateOrderBodySchema) {
-    const { userId, orderItems, total } = body;
+  async handle(@Body(bodyValidationPipe) body: CreateOrderBody) {
+    const { userId, orderItems } = body;
 
-    await this.createOrder.execute({
-      userId,
-      orderItems,
-      total,
-    });
+    const order = await this.createOrderService.execute({ userId, orderItems });
+
+    return { order };
   }
-}*/
+}
