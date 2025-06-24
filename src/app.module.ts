@@ -45,6 +45,13 @@ import { GetProfileByIdController } from "./profiles/get-profile-by-id.controlle
 import { GetProfileByIdService } from "./profiles/get-profile-by-id.service";
 import { EditProfileController } from "./profiles/edit-profile.controller";
 import { EditProfileService } from "./profiles/edit-profile.service";
+import { CreateOrderService } from "./orders/create-order.service";
+import { GetOrderByIdService } from "./orders/get-order-by-id.service";
+import { GetOrderByUserIdService } from "./orders/get-order-by-user-id.service";
+import { CreateOrderController } from "./orders/create-order.controller";
+import { GetOrderByIdController } from "./orders/get-order-by-id.controller";
+import { GetOrderByUserIdController } from "./orders/get-order-by-user-id.controller";
+import { OrdersRepository } from "./orders/orders.repository";
 
 @Module({
   imports: [],
@@ -68,6 +75,9 @@ import { EditProfileService } from "./profiles/edit-profile.service";
     DeleteUserController,
     GetProfileByIdController,
     EditProfileController,
+    CreateOrderController,
+    GetOrderByIdController,
+    GetOrderByUserIdController,
   ],
   providers: [
     PrismaService,
@@ -94,6 +104,10 @@ import { EditProfileService } from "./profiles/edit-profile.service";
     DeleteUserService,
     GetProfileByIdService,
     EditProfileService,
+    CreateOrderService,
+    GetOrderByIdService,
+    GetOrderByUserIdService,
+    OrdersRepository,
   ],
 })
 export class AppModule {}
