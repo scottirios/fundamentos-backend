@@ -10,7 +10,12 @@ const createProductBodySchema = z.object({
   price: z.number(),
   inStock: z.number(),
   isAvailable: z.boolean(),
-  category: z.enum([Category.ELECTRONICS, Category.OTHER]),
+  category: z.enum([
+    Category.ELECTRONICS,
+    Category.OTHER,
+    Category.FASHION,
+    Category.HOME,
+  ]),
   tags: z.array(z.string()),
   modelId: z.string().uuid(),
 });
